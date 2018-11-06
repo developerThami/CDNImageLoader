@@ -25,6 +25,7 @@ public class ImageSlidePageFragment extends Fragment implements AppContract.View
 
     @BindView(R.id.title)
     public TextView title;
+
     private IPLookUpInformation information;
 
     @Override
