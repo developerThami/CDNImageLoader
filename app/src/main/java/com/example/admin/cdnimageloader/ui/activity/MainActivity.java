@@ -1,4 +1,4 @@
-package com.example.admin.cdnimageloader.ui;
+package com.example.admin.cdnimageloader.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -10,8 +10,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
-import com.example.admin.cdnimageloader.AddressLocationService;
+import com.example.admin.cdnimageloader.ui.service.AddressLocationService;
 import com.example.admin.cdnimageloader.R;
+import com.example.admin.cdnimageloader.ui.adapter.ImagePagerAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -42,6 +43,8 @@ public class MainActivity extends FragmentActivity {
                 if (locationResult == null)
                     return;
                 lookupAddress(locationResult.getLastLocation());
+                mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+
             }
         };
 

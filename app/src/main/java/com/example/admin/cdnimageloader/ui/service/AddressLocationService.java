@@ -1,4 +1,4 @@
-package com.example.admin.cdnimageloader;
+package com.example.admin.cdnimageloader.ui.service;
 
 
 import android.app.IntentService;

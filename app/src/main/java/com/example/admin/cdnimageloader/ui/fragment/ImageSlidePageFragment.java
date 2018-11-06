@@ -1,4 +1,4 @@
-package com.example.admin.cdnimageloader.ui;
+package com.example.admin.cdnimageloader.ui.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,11 +12,14 @@ import android.widget.TextView;
 
 import com.example.admin.cdnimageloader.R;
 import com.example.admin.cdnimageloader.api.response.IPLookUpInformation;
+import com.example.admin.cdnimageloader.ui.AppContract;
+import com.example.admin.cdnimageloader.ui.adapter.ImagePagerAdapter;
+import com.example.admin.cdnimageloader.ui.Presenter;
 import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ImageSlidePageFragment extends Fragment implements AppContract.View{
+public class ImageSlidePageFragment extends Fragment implements AppContract.View {
 
     private String imageId;
 
