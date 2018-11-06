@@ -1,6 +1,5 @@
 package com.example.admin.cdnimageloader.ui;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.admin.cdnimageloader.api.Api;
@@ -16,8 +15,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-
 public class Presenter implements AppContract.Presenter{
+
+    private AppContract.View view;
+
+    public Presenter(AppContract.View view) {
+        this.view = view;
+    }
 
     @Override
     public void getIPInformation() {
@@ -29,10 +33,9 @@ public class Presenter implements AppContract.Presenter{
                     public void onSubscribe(Disposable d) {
 
                     }
-
                     @Override
                     public void onNext(IPLookUpInformation value) {
-                        Log.d("data", value.getCountry_code());
+                        view.showImageTitle(value);
                     }
 
                     @Override

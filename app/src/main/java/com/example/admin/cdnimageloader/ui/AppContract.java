@@ -1,5 +1,7 @@
 package com.example.admin.cdnimageloader.ui;
 
+import com.example.admin.cdnimageloader.api.response.IPLookUpInformation;
+
 public interface AppContract {
 
     interface Presenter{
@@ -7,6 +9,6 @@ public interface AppContract {
     }
 
     interface View{
-
+        void showImageTitle(IPLookUpInformation information);
     }
 }

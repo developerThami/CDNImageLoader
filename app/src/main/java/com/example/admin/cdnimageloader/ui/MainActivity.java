@@ -17,7 +17,6 @@ public class MainActivity extends FragmentActivity {
 
         mPager = findViewById(R.id.pager);
         ImagePagerAdapter mPagerAdapter = new ImagePagerAdapter(getSupportFragmentManager());
-        mPagerAdapter.setNumPages(3);
         mPager.setAdapter(mPagerAdapter);
     }
 
