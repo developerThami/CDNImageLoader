@@ -13,6 +13,16 @@ android {
 
 
     }
+
+    signingConfigs{
+        release{
+            storeFile file("keystore.jks")
+            storePassword "password1"
+            keyAlias "key"
+            keyPassword "password1"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
