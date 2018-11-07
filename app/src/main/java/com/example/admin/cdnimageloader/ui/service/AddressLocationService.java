@@ -6,19 +6,18 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.support.v4.content.LocalBroadcastManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
 public class AddressLocationService extends IntentService {
 
     public static final String LOCATION = "location";
+    public static final String ACTION_SEND_ADDRESS = "intent.send.Address";
+    public static final String ADDRESS_EXTRA = ".Address";
 
     public AddressLocationService() {
         super("AddressLocationService");
@@ -37,12 +36,13 @@ public class AddressLocationService extends IntentService {
             e.printStackTrace();
         }
 
-        getAddress(addresses.get(0));
+        sendAddress(addresses);
     }
 
-    Observable<Address> getAddress(Address address){
-        return Observable.just(address)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public void sendAddress(List<Address> address){
+        Intent intent = new Intent();
+        intent.setAction(ACTION_SEND_ADDRESS);
+        intent.putExtra(ADDRESS_EXTRA , address.get(0));
+        sendBroadcast(intent);
     }
 }

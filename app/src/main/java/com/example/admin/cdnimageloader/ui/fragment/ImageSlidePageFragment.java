@@ -1,5 +1,10 @@
 package com.example.admin.cdnimageloader.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +20,9 @@ import com.example.admin.cdnimageloader.api.response.IPLookUpInformation;
 import com.example.admin.cdnimageloader.ui.AppContract;
 import com.example.admin.cdnimageloader.ui.adapter.ImagePagerAdapter;
 import com.example.admin.cdnimageloader.ui.Presenter;
+import com.example.admin.cdnimageloader.ui.service.AddressLocationService;
 import com.squareup.picasso.Picasso;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,6 +35,9 @@ public class ImageSlidePageFragment extends Fragment implements AppContract.View
 
     @BindView(R.id.title)
     public TextView title;
+
+    @BindView(R.id.footer)
+    public TextView footer;
 
     private IPLookUpInformation information;
 
@@ -56,8 +66,11 @@ public class ImageSlidePageFragment extends Fragment implements AppContract.View
         String imageUrl = builder.build().toString();
         Picasso.get().load(imageUrl).into(imageView);
 
-        if(information == null)
+        if (information == null)
             new Presenter(this).getIPInformation();
+
+        getActivity().registerReceiver(receiver,
+                new IntentFilter(AddressLocationService.ACTION_SEND_ADDRESS));
 
         return view;
     }
@@ -65,6 +78,17 @@ public class ImageSlidePageFragment extends Fragment implements AppContract.View
     @Override
     public void showImageTitle(IPLookUpInformation information) {
         this.information = information;
-        title.setText( information.getCity().concat(", ").concat(information.getTimezone()));
+        title.setText(information.getCity().concat(", ").concat(information.getTimezone()));
     }
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction() == AddressLocationService.ACTION_SEND_ADDRESS) {
+                Address address = intent.getParcelableExtra(AddressLocationService.ADDRESS_EXTRA);
+                footer.setText(address.getAddressLine(0));
+            }
+        }
+    };
 }

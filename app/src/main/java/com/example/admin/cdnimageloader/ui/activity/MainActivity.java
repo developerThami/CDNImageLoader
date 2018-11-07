@@ -2,9 +2,13 @@ package com.example.admin.cdnimageloader.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -43,18 +47,42 @@ public class MainActivity extends FragmentActivity {
                 if (locationResult == null)
                     return;
                 lookupAddress(locationResult.getLastLocation());
-                mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-
             }
         };
 
-        requestLocationUpdates();
+        if (isLocationEnabled()) {
+            requestLocationUpdates();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.title))
+                    .setMessage(getString(R.string.message))
+                    .setNegativeButton(getString(R.string.neg), (dialog, which) -> finish())
+                    .setPositiveButton(getString(R.string.pos), (dialog, which) ->
+                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)));
+            builder.show();
+        }
+
     }
 
     private void lookupAddress(Location location) {
-        Intent intent = new Intent( MainActivity.this ,AddressLocationService.class);
+        Intent intent = new Intent(MainActivity.this, AddressLocationService.class);
         intent.putExtra(AddressLocationService.LOCATION, location);
         startService(intent);
+    }
+
+    private boolean isLocationEnabled() {
+
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean gpsEnabled = false;
+        boolean networkEnabled = false;
+
+        try {
+            gpsEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            networkEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception e) {
+        }
+
+        return gpsEnabled || networkEnabled;
     }
 
     private void requestLocationUpdates() {
@@ -103,4 +131,9 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestLocationUpdates();
+    }
 }

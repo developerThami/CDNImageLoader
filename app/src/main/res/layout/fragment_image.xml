@@ -26,4 +26,19 @@
         app:layout_constraintRight_toRightOf="@+id/image"
         app:layout_constraintLeft_toLeftOf="@+id/image"/>
 
+
+    <TextView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.3"
+        android:background="@android:color/white"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="@string/loading"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        app:layout_constraintRight_toRightOf="@+id/image"
+        app:layout_constraintLeft_toLeftOf="@+id/image"/>
+
 </android.support.constraint.ConstraintLayout>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CDNImageLoader</string>
+    <string name="message">Please enable your location to continue</string>
+    <string name="title">Device Location</string>
+    <string name="neg">CANCEL</string>
+    <string name="pos">CONTINUE</string>
+    <string name="loading">Loading ...</string>
 </resources>
